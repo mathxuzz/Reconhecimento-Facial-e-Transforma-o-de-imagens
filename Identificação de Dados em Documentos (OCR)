@@ -1,0 +1,19 @@
+from azure.ai.formrecognizer import DocumentAnalysisClient
+from azure.core.credentials import AzureKeyCredential
+
+# Configurações
+API_KEY = "sua_chave_aqui"
+ENDPOINT = "seu_endpoint_aqui"
+
+# Autenticação
+document_analysis_client = DocumentAnalysisClient(ENDPOINT, AzureKeyCredential(API_KEY))
+
+# Analisar um documento
+with open("caminho_do_documento.pdf", "rb") as f:
+    poller = document_analysis_client.begin_analyze_document("prebuilt-document", f)
+    result = poller.result()
+
+# Exibir texto extraído
+for page in result.pages:
+    for line in page.lines:
+        print(line.content)
