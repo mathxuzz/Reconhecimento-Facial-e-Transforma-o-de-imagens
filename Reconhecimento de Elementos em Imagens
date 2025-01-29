@@ -1,0 +1,22 @@
+from azure.cognitiveservices.vision.computervision import ComputerVisionClient
+from msrest.authentication import CognitiveServicesCredentials
+
+# Configurações
+API_KEY = "sua_chave_aqui"
+ENDPOINT = "seu_endpoint_aqui"
+
+# Autenticação
+vision_client = ComputerVisionClient(ENDPOINT, CognitiveServicesCredentials(API_KEY))
+
+# Analisar uma imagem
+image_url = "URL_da_imagem"
+analysis = vision_client.analyze_image(image_url, visual_features=["Categories", "Tags", "Objects"])
+
+# Exibir resultados
+print("Categorias:")
+for category in analysis.categories:
+    print(f"- {category.name} (Confiança: {category.score})")
+
+print("\nTags:")
+for tag in analysis.tags:
+    print(f"- {tag.name} (Confiança: {tag.confidence})")
