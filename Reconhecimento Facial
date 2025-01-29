@@ -1,0 +1,22 @@
+from azure.cognitiveservices.vision.face import FaceClient
+from msrest.authentication import CognitiveServicesCredentials
+
+# Configurações
+API_KEY = "sua_chave_aqui"
+ENDPOINT = "seu_endpoint_aqui"
+
+# Autenticação
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(API_KEY))
+
+# Detecção de rostos em uma imagem
+image_url = "URL_da_imagem"
+detected_faces = face_client.face.detect_with_url(
+    url=image_url,
+    detection_model='detection_03',
+    recognition_model='recognition_04',
+    return_face_attributes=['age', 'gender', 'emotion']
+)
+
+# Exibir resultados
+for face in detected_faces:
+    print(f"Idade: {face.face_attributes.age}, Gênero: {face.face_attributes.gender}")
